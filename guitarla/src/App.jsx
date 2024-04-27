@@ -1,6 +1,17 @@
+import { useState, useEffect } from 'react'
 import Header from "./components/Header"
 import Guitar from "./components/Guitar"
+import { db } from './data/db';
+
 function App() {
+
+    const [data, setData] = useState(db);
+    const [cart, setCart] = useState([]);
+
+    function addToCart(){
+        
+    }
+
     return (
         <>
             <Header />
@@ -8,12 +19,18 @@ function App() {
                 <h2 className="text-center">Nuestra Colección</h2>
 
                 <div className="row mt-5">
-                    <Guitar/>
-                    <Guitar/>
-                    <Guitar/>
-                    <Guitar/>
-                    <Guitar/>                   
-                    
+                    {// Para mostrar el componente el numero de veces segun nuestra base de datos
+                        //? Para la funcion map es necesario el return o poner todo dentro de un paréntesis
+                    }
+                    {data.map((guitar) => (
+                        // Implementación de Props
+                        <Guitar
+                            key={guitar.id}  //--> LLave de identificador
+                            guitar={guitar}
+                            setCart={setCart} // Pasando el statement del carrito
+                        />
+                    ))}
+
                 </div>
             </main>
 
