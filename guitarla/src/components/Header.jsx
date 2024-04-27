@@ -1,5 +1,5 @@
 import { useMemo } from "react"
-export default function Header({ cart, removeCart, increaseGuitar }) {
+export default function Header({ cart, removeGuitarCart, increaseGuitar, decreaseGuitar, removeCart }) {
     //Statemen derivado
     const isEmpty = useMemo(() => cart.length === 0, [cart])
     //Precio total
@@ -46,6 +46,7 @@ export default function Header({ cart, removeCart, increaseGuitar }) {
                                                             <button
                                                                 type="button"
                                                                 className="btn btn-dark"
+                                                                onClick={()=> decreaseGuitar(guitar.id)}
                                                             >
                                                                 -
                                                             </button>
@@ -62,7 +63,7 @@ export default function Header({ cart, removeCart, increaseGuitar }) {
                                                             <button
                                                                 className="btn btn-danger"
                                                                 type="button"
-                                                                onClick={() => removeCart(guitar.id)}
+                                                                onClick={() => removeGuitarCart(guitar.id)}
                                                             >
                                                                 X
                                                             </button>
@@ -78,7 +79,7 @@ export default function Header({ cart, removeCart, increaseGuitar }) {
 
 
 
-                                <button className="btn btn-dark w-100 mt-3 p-2">Vaciar Carrito</button>
+                                <button className="btn btn-dark w-100 mt-3 p-2" onClick={removeCart}>Vaciar Carrito</button>
                             </div>
                         </div>
                     </nav>

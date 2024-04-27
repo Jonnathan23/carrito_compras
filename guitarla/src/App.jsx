@@ -7,38 +7,67 @@ function App() {
 
     const [data, setData] = useState(db);
     const [cart, setCart] = useState([]);
+    const maxGuitars = 5
+    const minGuitars = 1
 
     function addToCart(item) {
 
         const itemExists = cart.findIndex(searchGuitar => searchGuitar.id === item.id);
         console.log(itemExists)
-        if(itemExists == -1){
+        if (itemExists == -1) {
             item.quantity = 1
             setCart([...cart, item])
-            console.log(`Agregando item ${item.name}` )
-        }else{
-            //item.quantity += 1
+            console.log(`Agregando item ${item.name}`)
+        } else {            
+            if (cart[itemExists].quantity === maxGuitars)  return
             const updateItemn = [...cart]
             updateItemn[itemExists].quantity++
-            setCart(updateItemn)            
-        }     
-        
+            setCart(updateItemn)
+            
+           
+        }
+
     }
 
-    function removeCart(id){
-       setCart(prevCart => prevCart.filter(guitarra =>guitarra.id !== id ))
+    function removeGuitarCart(id) {
+        setCart(prevCart => prevCart.filter(guitarra => guitarra.id !== id))
     }
 
-    function increaseGuitar(id){
+    function increaseGuitar(id) {
         console.log(`Incrementando ${id}`)
+        /*const index = cart.findIndex(searchGuitar => searchGuitar.id === id) //indice
+        const incrementGuitar = [...cart]
+        incrementGuitar[index].quantity++
+        */
+        const incrementGuitar = cart.map(item => {
+            (item.id === id && item.quantity <= maxGuitars) && item.quantity++
+            return item
+        })
+        setCart(incrementGuitar)
     }
+
+    function decreaseGuitar(id) {
+        const decrementGuitar = cart.map(item => {
+            (item.id === id && item.quantity > minGuitars) && item.quantity--
+            return item
+        })
+        setCart(decrementGuitar)
+
+    }
+
+    function removeCart(){   
+        setCart([])
+    }
+
 
     return (
         <>
-            <Header 
+            <Header
                 cart={cart}
-                removeCart={removeCart}
+                removeGuitarCart={removeGuitarCart}
                 increaseGuitar={increaseGuitar}
+                decreaseGuitar={decreaseGuitar}
+                removeCart={removeCart}
             />
             <main className="container-xl mt-5">
                 <h2 className="text-center">Nuestra Colección</h2>
