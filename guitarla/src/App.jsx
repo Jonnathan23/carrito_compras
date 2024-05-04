@@ -4,11 +4,20 @@ import Guitar from "./components/Guitar"
 import { db } from './data/db';
 
 function App() {
-
-    const [data, setData] = useState(db);
-    const [cart, setCart] = useState([]);
+    
+    const inicialCart = ()=>{
+        const localStorageCart = localStorage.getItem('cart');
+        return localStorageCart ? JSON.parse(localStorageCart): [];
+    }
+    
+    const [data] = useState(db);
+    const [cart, setCart] = useState(inicialCart);
     const maxGuitars = 5
     const minGuitars = 1
+    
+    useEffect(()=>{
+        localStorage.setItem('cart', JSON.stringify(cart))
+    },[cart])
 
     function addToCart(item) {
 
@@ -23,9 +32,7 @@ function App() {
             const updateItemn = [...cart]
             updateItemn[itemExists].quantity++
             setCart(updateItemn)
-            
-           
-        }
+        }       
 
     }
 
